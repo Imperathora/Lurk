@@ -6,9 +6,6 @@
 #include "Engine/AssetManager.h"
 #include "LAssetManager.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class LURK_API ULAssetManager : public UAssetManager
 {
