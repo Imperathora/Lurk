@@ -25,20 +25,11 @@ void ALCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	auto playerController = Cast<APlayerController>(GetController());
+	auto PlayerController = Cast<APlayerController>(GetController());
 
-	// Get the local player enhanced input subsystem
-	auto eiSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerController->GetLocalPlayer());
-	//Add the input mapping context
-	eiSubsystem->AddMappingContext(DefaultInputMapping, 0);
+	UEnhancedInputLocalPlayerSubsystem* EnhancedInputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
 
-	// Get the EnhancedInputComponent
-	auto playerEIcomponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-
-	/*if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-
-	}*/
+	EnhancedInputSubsystem->AddMappingContext(DefaultInputMapping, 0);
 }
 
 UInputAction* ALCharacter::GetInteractAction()
