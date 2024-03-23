@@ -6,10 +6,10 @@
 #include "Components/SceneComponent.h"
 #include "LInteractorComponent.generated.h"
 
-class ULInteractionComponent;
+class ULInteractableComponent;
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class LURK_API ULInteractorComponent : public USceneComponent
 {
 	GENERATED_BODY()
@@ -31,7 +31,7 @@ private:
 	float InteractionCircumference = 20.f;
 
 	UPROPERTY(Transient)
-	TObjectPtr<ULInteractionComponent> InteractionTarget = nullptr;
+	TObjectPtr<ULInteractableComponent> InteractionTarget = nullptr;
 
-		
+
 };

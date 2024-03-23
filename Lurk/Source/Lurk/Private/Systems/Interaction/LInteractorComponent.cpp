@@ -5,7 +5,7 @@
 #include <Kismet/KismetSystemLibrary.h>
 
 #include "Systems/LCharacter.h"
-#include "Systems/Interaction/LInteractionComponent.h"
+#include "Systems/Interaction/LInteractableComponent.h"
 
 
 ULInteractorComponent::ULInteractorComponent()
@@ -59,14 +59,14 @@ void ULInteractorComponent::UpdateInteractionCandidates()
 	UKismetSystemLibrary::CapsuleTraceMulti(this, Start, End, Radius, HalfHeight, TraceChannel, bTraceComplex, ActorsToIgnore, DrawDebugType, OutHits, bIgnoreSelf, TraceColor, TraceHitColor);
 
 
-	TArray<ULInteractionComponent*> CandidateInteractables;
+	TArray<ULInteractableComponent*> CandidateInteractables;
 
 	FString DebugState = TEXT("Current Candidates: \n");
 
 	for (const FHitResult& Hit : OutHits)
 	{
 		const AActor* HitActor = Hit.GetActor();
-		ULInteractionComponent* HitInteractable = HitActor ? HitActor->FindComponentByClass<ULInteractionComponent>() : nullptr;
+		ULInteractableComponent* HitInteractable = HitActor ? HitActor->FindComponentByClass<ULInteractableComponent>() : nullptr;
 		if (HitInteractable)
 		{
 			CandidateInteractables.Add(HitInteractable);
