@@ -25,6 +25,8 @@ class LURK_API ULDoorComponent : public UActorComponent
 		virtual void BeginPlay() override;
 		virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
 
+		FText GetInteractionText() const;
+
 		void OnDoorInteraction();
 		FQuat GetTargetRotation() const;
 

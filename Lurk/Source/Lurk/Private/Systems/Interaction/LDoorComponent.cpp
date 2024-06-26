@@ -18,6 +18,7 @@ void ULDoorComponent::BeginPlay()
 	if (ULInteractableComponent* InteractableComponent = GetOwner()->FindComponentByClass< ULInteractableComponent>())
 	{
 		InteractableComponent->OnInteract.BindUObject(this, &ThisClass::OnDoorInteraction);
+		InteractableComponent->GetInteractText.BindUObject(this, &ThisClass::GetInteractionText);
 	}
 }
 
@@ -40,6 +41,22 @@ void ULDoorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	}
 
 	GetOwner()->SetActorRotation(NewRotation);
+}
+
+FText ULDoorComponent::GetInteractionText() const
+{
+	switch (TargetState)
+	{
+	case EDoorState::Closed:
+		return NSLOCTEXT("Lurk", "DoorInteractionOpen", "open the door");
+
+	case EDoorState::Opened:
+		return NSLOCTEXT("Lurk", "DoorInteractionClose", "close the door");
+
+	default:
+		checkNoEntry();
+		return {};
+	}
 }
 
 void ULDoorComponent::OnDoorInteraction()

@@ -6,6 +6,7 @@
 
 using FOnInteractDelegate = TDelegate<void()>;
 using FCanInteractDelegate = TDelegate<bool()>;
+using FGetInteractTextDelegate = TDelegate<FText()>;
 
 //Allows owning actor to recieve interaction event from player
 
@@ -19,5 +20,9 @@ public:
 
 	FCanInteractDelegate CanInteract;
 
+	FGetInteractTextDelegate GetInteractText;
+
 	bool TryInteract();
+
+	FText  GetInteractionText() const;
 };

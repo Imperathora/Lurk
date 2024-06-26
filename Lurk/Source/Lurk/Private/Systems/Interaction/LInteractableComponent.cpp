@@ -14,9 +14,15 @@ bool ULInteractableComponent::TryInteract()
 	if (bCanInteract)
 	{
 		OnInteract.Execute();
-
 	}
 
 	return bCanInteract;
+}
+
+FText ULInteractableComponent::GetInteractionText() const
+{
+	const FText ActionText = GetInteractText.IsBound() ? GetInteractText.Execute() : NSLOCTEXT("Lurk", "InteractionDefaultAction", "interact with this object");
+	
+	return FText::Format(NSLOCTEXT("Lurk", "InteractionPrompt", "Press E to {0}"), ActionText);
 }
 

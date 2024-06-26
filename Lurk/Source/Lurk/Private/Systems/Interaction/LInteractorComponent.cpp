@@ -74,15 +74,16 @@ void ULInteractorComponent::UpdateInteractionCandidates()
 		}
 
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 0.f, FColor::Red, DebugState);
+	}
 
-		if (!CandidateInteractables.IsEmpty())
-		{
-			InteractionTarget = CandidateInteractables[0];
-		}
-		else
-		{
-			InteractionTarget = nullptr;
-		}
+	if (!CandidateInteractables.IsEmpty())
+	{
+		InteractionTarget = CandidateInteractables[0];
+	}
+	else
+	{
+		InteractionTarget = nullptr;
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 0.f, FColor::Blue, TEXT("No interaction target"));
 	}
 
 }

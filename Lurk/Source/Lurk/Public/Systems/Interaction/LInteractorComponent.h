@@ -8,7 +8,6 @@
 
 class ULInteractableComponent;
 
-
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class LURK_API ULInteractorComponent : public USceneComponent
 {
@@ -16,6 +15,8 @@ class LURK_API ULInteractorComponent : public USceneComponent
 
 public:
 	ULInteractorComponent();
+
+	ULInteractableComponent* GetInteractionTarget() const { return InteractionTarget; }
 
 private:
 	virtual void BeginPlay() override;
@@ -25,10 +26,10 @@ private:
 	void PerformInteraction();
 
 	UPROPERTY(EditDefaultsOnly)
-	float InteractionDistance = 500.f;
+	float InteractionDistance = 100.f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float InteractionCircumference = 20.f;
+	float InteractionCircumference = 10.f;
 
 	UPROPERTY(Transient)
 	TObjectPtr<ULInteractableComponent> InteractionTarget = nullptr;
