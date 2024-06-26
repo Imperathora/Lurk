@@ -83,7 +83,6 @@ void ULInteractorComponent::UpdateInteractionCandidates()
 	else
 	{
 		InteractionTarget = nullptr;
-		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 0.f, FColor::Blue, TEXT("No interaction target"));
 	}
 
 }
