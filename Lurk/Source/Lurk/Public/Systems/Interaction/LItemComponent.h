@@ -16,11 +16,22 @@ class LURK_API ULItemComponent : public UActorComponent
 public:
 	ULItemComponent();
 
+	UFUNCTION(BlueprintCallable)
+	FText GetInteractionText() const;
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetItemInventoryWidth() const;
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetItemInventoryHeight() const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FString ItemName;
+
+
 private:
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction);
-
-	FText GetInteractionText() const;
 
 	void ItemInteraction();
 

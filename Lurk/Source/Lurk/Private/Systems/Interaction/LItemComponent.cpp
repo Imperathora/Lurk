@@ -35,6 +35,26 @@ FText ULItemComponent::GetInteractionText() const
 	return NSLOCTEXT("Lurk", "PickUpItem", "pick up item"); 
 }
 
+int32 ULItemComponent::GetItemInventoryWidth() const
+{
+	if (ensure(IsValid(ItemData)))
+	{
+		return ItemData->GetWidth();
+	}
+
+	return 0;
+}
+
+int32 ULItemComponent::GetItemInventoryHeight() const
+{
+	if (ensure(IsValid(ItemData)))
+	{
+		return ItemData->GetHeight();
+	}
+
+	return 0;
+}
+
 void ULItemComponent::ItemInteraction()
 {
 	GetOwner()->Destroy();

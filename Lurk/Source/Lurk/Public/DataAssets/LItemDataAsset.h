@@ -26,6 +26,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FText GetName() const { return ItemName; }
 
+	UFUNCTION(BlueprintCallable)
+	int32 GetWidth() const { return ItemWidth; }
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetHeight() const { return ItemHeight; }
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Item")
 	FText ItemName;
@@ -44,4 +50,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Item")
 	class USoundBase* PickupSound;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	int32 ItemWidth = 1;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	int32 ItemHeight = 1;
 };
