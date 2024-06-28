@@ -3,6 +3,9 @@
 #include "Systems/Interaction/LItemComponent.h"
 #include <Systems/Interaction/LInteractableComponent.h>
 #include "DataAssets/LItemDataAsset.h"
+#include "Systems/LCharacter.h"
+#include <Kismet/GameplayStatics.h>
+#include <Framework/LPlayerController.h>
 
 ULItemComponent::ULItemComponent()
 {
@@ -57,6 +60,11 @@ int32 ULItemComponent::GetItemInventoryHeight() const
 
 void ULItemComponent::ItemInteraction()
 {
-	GetOwner()->Destroy();
+	//GetOwner()->Destroy();
+
+	if (ALPlayerController* PlayerController = CastChecked<ALPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		PlayerController->AddItemToInventory(this);
+	}
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Blue, TEXT("pickup"));
 }

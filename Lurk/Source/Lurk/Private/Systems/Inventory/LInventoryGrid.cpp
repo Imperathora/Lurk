@@ -6,13 +6,17 @@
 
 ULInventoryGrid::ULInventoryGrid()
 {
-    Rows = 10; // Default size, can be changed
-    Columns = 10; // Default size, can be changed
+    Rows = 10; 
+    Columns = 10; 
     Grid.SetNum(Rows);
 
     for (int32 Row = 0; Row < Rows; ++Row)
     {
         Grid[Row].SetNum(Columns);
+        for (int32 Column = 0; Column < Columns; ++Column)
+        {
+            Grid[Row][Column] = nullptr;
+        }
     }
 }
 
@@ -36,6 +40,24 @@ bool ULInventoryGrid::RemoveItem(ULItemComponent* Item)
         return true;
     }
     return false;
+}
+
+bool ULInventoryGrid::AddItemToFirstFreeSpace(ULItemComponent* NewItem)
+{
+    for (int32 Row = 0; Row < Rows; ++Row)
+    {
+        for (int32 Column = 0; Column < Columns; ++Column)
+        {
+            if (IsSpaceAvailable(NewItem, Row, Column))
+            {
+                PlaceItem(NewItem, Row, Column);
+                Items.Add(NewItem);
+                UE_LOG(LogTemp, Warning, TEXT("Placed item at Row: %d, Column: %d"), Row, Column);
+                return true;
+            }
+        }
+    }
+    return false; // No space available
 }
 
 bool ULInventoryGrid::IsSpaceAvailable(ULItemComponent* Item, int32 StartRow, int32 StartColumn)
@@ -76,10 +98,7 @@ void ULInventoryGrid::ClearItem(ULItemComponent* Item)
     {
         for (int32 Column = 0; Column < Columns; ++Column)
         {
-            if (Grid[Row][Column] == Item)
-            {
-                Grid[Row][Column] = nullptr;
-            }
+            Grid[Row][Column] = Item;
         }
     }
 }

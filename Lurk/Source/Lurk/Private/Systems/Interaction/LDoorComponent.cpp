@@ -15,7 +15,7 @@ void ULDoorComponent::BeginPlay()
 
 	InitialRotation = GetOwner()->GetActorQuat();
 
-	if (ULInteractableComponent* InteractableComponent = GetOwner()->FindComponentByClass< ULInteractableComponent>())
+	if (ULInteractableComponent* InteractableComponent = GetOwner()->FindComponentByClass<ULInteractableComponent>())
 	{
 		InteractableComponent->OnInteract.BindUObject(this, &ThisClass::OnDoorInteraction);
 		InteractableComponent->GetInteractText.BindUObject(this, &ThisClass::GetInteractionText);

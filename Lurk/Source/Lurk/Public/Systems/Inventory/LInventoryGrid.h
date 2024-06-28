@@ -31,10 +31,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Inventory")
     bool RemoveItem(ULItemComponent* Item);
 
-private:
-    TArray<TArray<ULItemComponent*>> Grid;
+    UFUNCTION(BlueprintCallable, Category = "Inventory")
+    bool AddItemToFirstFreeSpace(ULItemComponent* NewItem);
 
     bool IsSpaceAvailable(ULItemComponent* Item, int32 StartRow, int32 StartColumn);
+
+    TArray<TArray<ULItemComponent*>> Grid;
+
+private:
     void PlaceItem(ULItemComponent* Item, int32 StartRow, int32 StartColumn);
     void ClearItem(ULItemComponent* Item);
 };

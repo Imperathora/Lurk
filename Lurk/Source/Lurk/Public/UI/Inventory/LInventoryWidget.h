@@ -20,6 +20,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Inventory")
     void UpdateInventoryUI();
 
+    UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+    class UUniformGridPanel* InventoryGridPanel;
+
 private:
     UPROPERTY()
     ULInventoryGrid* InventoryGrid;

@@ -16,20 +16,22 @@ class LURK_API ALPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-    ALPlayerController();
+	void OpenInventory();
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void AddItemToInventory(ULItemComponent* Item);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UUserWidget>  InventoryWidgetClass;
 
 protected:
-    virtual void SetupInputComponent() override;
+	virtual void BeginPlay() override;
+	void InitializeInventoryGrid();
 
 private:
-    UPROPERTY()
-    ULInventoryGrid* InventoryGrid;
+	UPROPERTY()
+	ULInventoryGrid* InventoryGrid;
 
-    UPROPERTY()
-    ULInventoryWidget* InventoryWidget;
-
-    void OpenInventory();
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
-    TSubclassOf<UUserWidget>  InventoryWidgetClass;
+	UPROPERTY()
+	ULInventoryWidget* InventoryWidget;
 };
