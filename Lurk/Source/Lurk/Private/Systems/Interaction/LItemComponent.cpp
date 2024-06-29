@@ -48,6 +48,16 @@ int32 ULItemComponent::GetItemInventoryWidth() const
 	return 0;
 }
 
+UStaticMesh* ULItemComponent::GetItemMesh() const
+{
+	if (ensure(IsValid(ItemData)))
+	{
+		return ItemData->GetMesh();
+	}
+
+	return 0;
+}
+
 int32 ULItemComponent::GetItemInventoryHeight() const
 {
 	if (ensure(IsValid(ItemData)))

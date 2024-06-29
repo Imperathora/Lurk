@@ -6,9 +6,12 @@
 
 #include "Systems/Interaction/LItemComponent.h"
 
+#include "UI/Inventory/LItemViewerWidget.h"
+
 #include "Components/UniformGridPanel.h"
 #include "Components/UniformGridSlot.h"
 #include "Components/TextBlock.h"
+#include "UI/Inventory/LInventoryItemWidget.h"
 
 void ULInventoryWidget::InitializeInventory(ULInventoryGrid* Inventory)
 {
@@ -18,13 +21,7 @@ void ULInventoryWidget::InitializeInventory(ULInventoryGrid* Inventory)
 
 void ULInventoryWidget::UpdateInventoryUI()
 {
-    UE_LOG(LogTemp, Warning, TEXT("UpdateInventoryUI called"));
-
-    if (!InventoryGrid || !InventoryGridPanel)
-    {
-        UE_LOG(LogTemp, Error, TEXT("InventoryGrid or InventoryGridPanel is null"));
-        return;
-    }
+    if (!InventoryGrid || !InventoryGridPanel) return;
 
     InventoryGridPanel->ClearChildren();
 
@@ -32,8 +29,9 @@ void ULInventoryWidget::UpdateInventoryUI()
     {
         if (Item)
         {
-            UTextBlock* ItemText = NewObject<UTextBlock>(InventoryGridPanel);
-            ItemText->SetText(FText::FromString(Item->ItemName));
+            ULInventoryItemWidget* ItemWidget = CreateWidget<ULInventoryItemWidget>(this, ItemWidgetClass);
+            ItemWidget->SetItem(Item);
+            ItemWidget->OnItemRightClicked.AddDynamic(this, &ULInventoryWidget::OnItemRightClicked);
 
             // Find the item's position in the grid
             int32 StartRow = -1;
@@ -55,17 +53,30 @@ void ULInventoryWidget::UpdateInventoryUI()
 
             if (StartRow != -1 && StartColumn != -1)
             {
-                UE_LOG(LogTemp, Warning, TEXT("Placing item %s at Row: %d, Column: %d"), *Item->ItemName, StartRow, StartColumn);
-                UUniformGridSlot* GridSlot = InventoryGridPanel->AddChildToUniformGrid(ItemText);
+                UUniformGridSlot* GridSlot = InventoryGridPanel->AddChildToUniformGrid(ItemWidget);
                 GridSlot->SetRow(StartRow);
                 GridSlot->SetColumn(StartColumn);
-            }
-            else
-            {
-                UE_LOG(LogTemp, Error, TEXT("Could not find position for item %s"), *Item->ItemName);
             }
         }
     }
 
     InventoryGridPanel->InvalidateLayoutAndVolatility();
+}
+
+void ULInventoryWidget::OnItemRightClicked(ULItemComponent* Item)
+{
+    if (!ItemViewerWidget)
+    {
+        ItemViewerWidget = CreateWidget<ULItemViewerWidget>(this, ItemViewerWidgetClass);
+        if (ItemViewerWidget)
+        {
+            ItemViewerWidget->AddToViewport();
+        }
+    }
+
+    if (ItemViewerWidget)
+    {
+        ItemViewerWidget->SetItem(Item);
+        ItemViewerWidget->SetVisibility(ESlateVisibility::Visible);
+    }
 }

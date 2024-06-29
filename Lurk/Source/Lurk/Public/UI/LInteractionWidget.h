@@ -7,7 +7,6 @@
 
 class UTextBlock;
 
-
 UCLASS()
 class LURK_API ULInteractionWidget : public UUserWidget
 {

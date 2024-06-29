@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetItemInventoryHeight() const;
 
+	UFUNCTION(BlueprintCallable)
+	UStaticMesh* GetItemMesh() const;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FString ItemName;
 

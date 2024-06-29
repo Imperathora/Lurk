@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetHeight() const { return ItemHeight; }
 
+	UFUNCTION(BlueprintCallable)
+	UStaticMesh* GetMesh() const { return ItemMesh; }
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Item")
 	FText ItemName;

@@ -34,7 +34,7 @@ void ALPlayerController::OpenInventory()
 	{
 		if (InventoryWidget->IsInViewport())
 		{
-			InventoryWidget->RemoveFromViewport();
+			InventoryWidget->RemoveFromParent();
 			bShowMouseCursor = false;
 			//SetInputMode(FInputModeGameOnly());
 		}
