@@ -8,7 +8,7 @@ using FOnInteractDelegate = TDelegate<void()>;
 using FCanInteractDelegate = TDelegate<bool()>;
 using FGetInteractTextDelegate = TDelegate<FText()>;
 
-//Allows owning actor to recieve interaction event from player
+//Allows owning actor to receive interaction event from player
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class LURK_API ULInteractableComponent : public UActorComponent

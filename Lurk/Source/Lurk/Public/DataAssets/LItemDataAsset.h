@@ -15,7 +15,7 @@ enum class EItemType : uint8
 };
 
 UCLASS()
-class LURK_API ULItemDataAsset : public UDataAsset
+class LURK_API ULItemDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 

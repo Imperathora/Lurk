@@ -20,6 +20,9 @@ public:
 	FText GetInteractionText() const;
 
 	UFUNCTION(BlueprintCallable)
+	ULItemDataAsset* GetDataAsset() const { return ItemData; }
+
+	UFUNCTION(BlueprintCallable)
 	int32 GetItemInventoryWidth() const;
 
 	UFUNCTION(BlueprintCallable)
@@ -30,7 +33,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FString ItemName;
-
 
 private:
 	virtual void BeginPlay() override;

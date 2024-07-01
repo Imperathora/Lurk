@@ -26,8 +26,6 @@ public:
 	UInputAction* GetInteractAction();
 	UInputAction* GetOpenInventoryAction();
 
-
-
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
 	class UInputMappingContext* DefaultInputMapping;
@@ -37,15 +35,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* Input_OpenInventory;
-
-	UPROPERTY()
-	ULInventoryGrid* InventoryGrid;
-
-	UPROPERTY()
-	ULInventoryWidget* InventoryWidget;
-
-	void OpenInventory();
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<UUserWidget>  InventoryWidgetClass;
 };

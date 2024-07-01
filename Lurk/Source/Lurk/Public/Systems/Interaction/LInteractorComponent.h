@@ -33,6 +33,4 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<ULInteractableComponent> InteractionTarget = nullptr;
-
-
 };
