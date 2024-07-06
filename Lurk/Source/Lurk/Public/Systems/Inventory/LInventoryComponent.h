@@ -7,6 +7,7 @@
 #include "LInventoryComponent.generated.h"
 
 class ULItemComponent;
+class ULUIInventory;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LURK_API ULInventoryComponent : public UActorComponent
@@ -47,7 +48,7 @@ private:
 	int32 MaxSize = 3;
 
 	UPROPERTY()
-	UUserWidget* InventoryWidget;
+	ULUIInventory* InventoryWidget;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget>  InventoryWidgetClass;
