@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Paper2D/Classes/PaperTileMapComponent.h"
 #include "LItemDataAsset.generated.h"
 
 
@@ -21,19 +22,25 @@ class LURK_API ULItemDataAsset : public UPrimaryDataAsset
 
 public:
 	UFUNCTION(BlueprintCallable)
-	FText GetDescription() const { return ItemDescription; }
+	FText GetItemDescription() const { return ItemDescription; }
 
 	UFUNCTION(BlueprintCallable)
-	FText GetName() const { return ItemName; }
+	FText GetItemName() const { return ItemName; }
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetWidth() const { return ItemWidth; }
+	int32 GetLayer() const { return ItemLayer; }
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetHeight() const { return ItemHeight; }
+	UTexture2D* GetItemTexture() const { return ItemTexture; }
 
 	UFUNCTION(BlueprintCallable)
-	UStaticMesh* GetMesh() const { return ItemMesh; }
+	TArray<FVector2D> GetShape(float rotation);
+
+	UFUNCTION(BlueprintCallable)
+	void DetermineShape(UPaperTileMapComponent* tilemapComponent);
+
+	UFUNCTION(BlueprintCallable)
+	FVector2D GetMaxSize(float rotation, bool defaultOverride);
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Item")
@@ -43,20 +50,20 @@ private:
 	FText ItemDescription;
 
 	UPROPERTY(EditAnywhere, Category = "Item")
-	UTexture2D* ItemIcon;
-
-	UPROPERTY(EditAnywhere, Category = "Item")
-	UStaticMesh* ItemMesh;
+	UTexture2D* ItemTexture;
 
 	UPROPERTY(EditAnywhere, Category = "Item")
 	EItemType ItemType;
 
 	UPROPERTY(EditAnywhere, Category = "Item")
-	class USoundBase* PickupSound;
+	USoundBase* PickupSound;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	int32 ItemWidth = 1;
+	UPROPERTY(EditAnywhere, Category = "Item")
+	int32 ItemLayer;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	int32 ItemHeight = 1;
+	UPROPERTY(EditAnywhere, Category = "Item")
+	TArray<FVector2D> DefaultItemShape;
+
+	UPROPERTY(EditAnywhere, Category = "Item")
+	UPaperTileSet* TileSet;
 };

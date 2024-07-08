@@ -23,29 +23,46 @@ public:
 	bool PickUp (ULItemComponent* ItemToPickUp);
 
 private:
-	UFUNCTION(BlueprintPure)
-	bool IsKeyFull (const int32& Key, int32& Remaining);
+	UFUNCTION(BlueprintCallable)
+	void AddToInventory (FVector2D SlotKey, ULItemComponent* SlotValue, bool bModifyState);
 
 	UFUNCTION(BlueprintCallable)
-	void ItemAdded (int32 SlotKey, ULItemDataAsset* SlotValue);
-
-	UFUNCTION(BlueprintCallable)
-	void ItemRemoved (int32 SlotKey);
+	void RemoveFromInventory (FVector2D SlotKey, bool bModifyState);
 	
 	UFUNCTION(BlueprintCallable)
 	void ItemDropped(ULItemDataAsset* ItemDropped);
 
 	void OpenInventory();
+	
+	UFUNCTION(BlueprintCallable)
+	void DefaultInventoryState ();
+
+	UFUNCTION(BlueprintCallable)
+	void AddToState (ULItemComponent* ItemComponent, FVector2D Location);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveFromState (ULItemComponent* ItemComponent, FVector2D Location);
+
+	UFUNCTION(BlueprintCallable)
+	bool ShapeFits (TArray<FVector2D> Shape, FVector2D& ValidKey);
 
 protected:
 	virtual void BeginPlay() override;
 
+	bool CheckRotation(float ItemRotation, ULItemComponent* ItemComponent);
+
 private:
 	UPROPERTY(VisibleAnywhere)
-	TMap<int32,ULItemDataAsset*> Inventory;
+	TMap<FVector2D,ULItemComponent*> Inventory;
+	
+	UPROPERTY(VisibleAnywhere)
+	TMap<FVector2D,bool> InventoryState;
 
 	UPROPERTY(EditDefaultsOnly)
-	int32 MaxSize = 3;
+	int32 InventorySize = 10;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 InventoryWidth = 10;
 
 	UPROPERTY()
 	ULUIInventory* InventoryWidget;

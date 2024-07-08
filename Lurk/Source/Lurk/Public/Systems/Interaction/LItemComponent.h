@@ -22,17 +22,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ULItemDataAsset* GetDataAsset() const { return ItemData; }
 
-	UFUNCTION(BlueprintCallable)
-	int32 GetItemInventoryWidth() const;
-
-	UFUNCTION(BlueprintCallable)
-	int32 GetItemInventoryHeight() const;
-
-	UFUNCTION(BlueprintCallable)
-	UStaticMesh* GetItemMesh() const;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FString ItemName;
+
+	UFUNCTION(BlueprintCallable)
+	float GetRotation() const { return Rotation; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetRotation(float rotation) {  Rotation = rotation; }
 
 private:
 	virtual void BeginPlay() override;
@@ -43,4 +40,7 @@ private:
 private:
 	UPROPERTY(EditAnywhere, Category = "Item")
 	ULItemDataAsset* ItemData;
+
+	UPROPERTY(EditAnywhere, Category = "Item")
+	float Rotation;
 };

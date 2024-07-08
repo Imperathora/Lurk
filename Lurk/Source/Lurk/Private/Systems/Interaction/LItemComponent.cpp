@@ -33,40 +33,10 @@ FText ULItemComponent::GetInteractionText() const
 {
 	if (ItemData != nullptr)
 	{
-		return NSLOCTEXT("Lurk", "PickUpItem", "pick up pick up {0}"), ItemData->GetName();
+		return NSLOCTEXT("Lurk", "PickUpItem", "pick up pick up {0}"), ItemData->GetItemName();
 	}	
 
 	return NSLOCTEXT("Lurk", "PickUpItem", "pick up item"); 
-}
-
-int32 ULItemComponent::GetItemInventoryWidth() const
-{
-	if (ensure(IsValid(ItemData)))
-	{
-		return ItemData->GetWidth();
-	}
-
-	return 0;
-}
-
-UStaticMesh* ULItemComponent::GetItemMesh() const
-{
-	if (ensure(IsValid(ItemData)))
-	{
-		return ItemData->GetMesh();
-	}
-
-	return 0;
-}
-
-int32 ULItemComponent::GetItemInventoryHeight() const
-{
-	if (ensure(IsValid(ItemData)))
-	{
-		return ItemData->GetHeight();
-	}
-
-	return 0;
 }
 
 void ULItemComponent::ItemInteraction()
@@ -80,8 +50,13 @@ void ULItemComponent::ItemInteraction()
 			if(InventoryComponent->PickUp(this))
 			{
 				GetOwner()->Destroy();
+				
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Blue, TEXT("picked up"));
 			}
-			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Blue, TEXT("pickup"));
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Blue, TEXT("pickup not successful"));
+			}
 		}
 	}
 }

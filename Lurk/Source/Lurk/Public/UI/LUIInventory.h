@@ -21,7 +21,7 @@ class LURK_API ULUIInventory : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SetInventory(const TMap<int32, ULItemDataAsset*>& inv) { Inventory = inv; }
+	void SetInventory(const TMap<FVector2D,ULItemComponent*>& inv) { Inventory = inv; }
 
 	UFUNCTION(BlueprintCallable)
 	void SetMaxSize(const int32 size) { WidgetSize = size; }
@@ -46,7 +46,7 @@ public:
 	void ItemRemoved(int32 ItemID);
 	
 	UPROPERTY(BlueprintReadWrite)
-	TMap<int32, ULItemDataAsset*> Inventory;
+	TMap<FVector2D,ULItemComponent*> Inventory;
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 WidgetSize;
