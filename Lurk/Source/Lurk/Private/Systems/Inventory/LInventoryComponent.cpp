@@ -271,9 +271,16 @@ bool ULInventoryComponent::ShapeFits(TArray<FVector2D> Shape, FVector2D& ValidKe
 
 	for (auto Key : keys)
 	{
-		// Check if the current key is an empty slot
-		if (!*InventoryState.Find(Key))
+		FVector2D KeyToFind = Key - Shape[0]; 
+		if(!InventoryState.Find(KeyToFind))
 		{
+			break;
+		}
+		
+		// Check if the current key is an empty slot
+		if (!*InventoryState.Find(KeyToFind))
+		{
+	
 			FVector2D emptySlot;
 			emptySlot = Key;
 			bool bFailed = false;
@@ -283,7 +290,7 @@ bool ULInventoryComponent::ShapeFits(TArray<FVector2D> Shape, FVector2D& ValidKe
 			{
 				FVector2D currentPos = emptySlot + itemShape;
 
-				if (!InventoryState.Find(currentPos))
+				if (!InventoryState.Find(currentPos) || *InventoryState.Find(currentPos))
 				{
 					bFailed = true;
 					GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow,
