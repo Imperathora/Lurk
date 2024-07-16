@@ -44,19 +44,45 @@ void ULItemDataAsset::DetermineShape(UPaperTileMapComponent* tilemapComponent)
 	int32 mapWidth;
 	int32 mapHeight;
 	int32 numLayers;
-	
+
 	tilemapComponent->GetMapSize(mapWidth, mapHeight, numLayers);
 
-	for(int i = 0; i < mapWidth-1; i++)
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Green,
+	                                 FString::Printf(
+		                                 TEXT("Map Size - Width: %d, Height: %d, Layers: %d"), mapWidth, mapHeight,
+		                                 numLayers));
+
+	for (int i = 0; i <= mapWidth - 1; i++)
 	{
 		int32 mapX = i;
-		for(int j = 0; j < mapHeight-1; j++)
+		for (int j = 0; j <= mapHeight - 1; j++)
 		{
 			int32 mapY = j;
-
-			if(tilemapComponent->GetTile(mapX,mapY,GetLayer()).TileSet == TileSet)
+			if (numLayers > 0)
 			{
-				DefaultItemShape.Add(FVector2D(mapX,mapY));
+				FPaperTileInfo tileInfo = tilemapComponent->GetTile(mapX, mapY, GetLayer());
+				TObjectPtr<UPaperTileSet> tileSet = tileInfo.TileSet;
+
+				if (tileSet)
+				{
+					GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Purple,
+					                                 FString::Printf(
+						                                 TEXT("Tile found: %s"), *tileSet.GetFName().ToString()));
+					if (tileSet == TileSet)
+					{
+						DefaultItemShape.Add(FVector2D(mapX, mapY));
+					}
+				}
+				else
+				{
+					GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Red,
+					                                 FString::Printf(TEXT("Tile at (%d, %d) is null"), mapX, mapY));
+				}
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Red,
+				                                 FString::Printf(TEXT("No layers available in the tilemap")));
 			}
 		}
 	}
@@ -75,17 +101,17 @@ FVector2D ULItemDataAsset::GetMaxSize(float rotation, bool defaultOverride)
 	{
 		tempShape = GetShape(rotation);
 	}
-	
+
 	for (auto shape : tempShape)
 	{
-		if (maxX > shape.X)
+		if (maxX < shape.X)
 		{
 			maxX = shape.X;
 		}
-		else if (maxY > shape.Y)
+		if (maxY < 0)
 		{
 			maxY = shape.Y;
 		}
 	}
-	return FVector2D(maxX,maxY);
+	return FVector2D(maxX + 1.f, maxY + 1.f);
 }

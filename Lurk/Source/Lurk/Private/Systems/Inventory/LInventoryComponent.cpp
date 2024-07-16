@@ -36,7 +36,7 @@ bool ULInventoryComponent::CheckRotation(float ItemRotation, ULItemComponent* It
 
 	FVector2D key;
 	ItemComponent->SetRotation(ItemRotation);
-	if (ShapeFits(dataAsset->GetShape(0.f), key) && Inventory.Num() < InventorySize)
+	if (ShapeFits(dataAsset->GetShape(0.f), key))
 	{
 		AddToInventory(key, ItemComponent, true);
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow, TEXT("CheckRotation true"));
@@ -272,7 +272,7 @@ bool ULInventoryComponent::ShapeFits(TArray<FVector2D> Shape, FVector2D& ValidKe
 	for (auto Key : keys)
 	{
 		// Check if the current key is an empty slot
-		if (!Inventory.Find(Key))
+		if (!*InventoryState.Find(Key))
 		{
 			FVector2D emptySlot;
 			emptySlot = Key;
