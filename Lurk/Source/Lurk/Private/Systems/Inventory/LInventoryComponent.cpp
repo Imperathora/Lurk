@@ -36,7 +36,7 @@ bool ULInventoryComponent::CheckRotation(float ItemRotation, ULItemComponent* It
 
 	FVector2D key;
 	ItemComponent->SetRotation(ItemRotation);
-	if (ShapeFits(dataAsset->GetShape(0.f), key))
+	if (ShapeFits(dataAsset->GetShape(0.f), key) && Inventory.Num() < InventorySize)
 	{
 		AddToInventory(key, ItemComponent, true);
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow, TEXT("CheckRotation true"));
@@ -62,7 +62,7 @@ bool ULInventoryComponent::PickUp(ULItemComponent* ItemToPickUp)
 	{
 		return true;
 	}
-	
+
 	else
 	{
 		return false;
@@ -78,7 +78,9 @@ void ULInventoryComponent::AddToInventory(FVector2D SlotKey, ULItemComponent* Sl
 		AddToState(SlotValue, SlotKey);
 	}
 
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Purple, FString::Printf(TEXT("ValidKey found: %s"), *SlotKey.ToString()));
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Purple,
+	                                 FString::Printf(TEXT("ValidKey found: %s"), *SlotKey.ToString()));
+
 
 	/*if (InventoryWidget)
 	{
@@ -140,14 +142,14 @@ void ULInventoryComponent::ItemDropped(ULItemDataAsset* ItemDropped)
 		{
 			FActorSpawnParameters SpawnParams;
 			GetWorld()->SpawnActor<ULItemComponent>(ItemDropped->GetClass(), HitResult.Location, FRotator::ZeroRotator,
-			                               SpawnParams);
+			                                        SpawnParams);
 		}
 		DrawDebugBox(GetWorld(), HitResult.Location, BoxHalfSize, BoxRotation, FColor::Red, false, 5.0f);
 
-	/*	if (InventoryWidget)
-		{
-			InventoryWidget->OnItemDropped.Broadcast(ItemDropped);
-		}*/
+		/*	if (InventoryWidget)
+			{
+				InventoryWidget->OnItemDropped.Broadcast(ItemDropped);
+			}*/
 	}
 }
 
@@ -190,9 +192,9 @@ void ULInventoryComponent::OpenInventory()
 			PlayerController->bShowMouseCursor = false;
 			PlayerController->SetInputMode(FInputModeGameOnly());
 
-			InventoryWidget = nullptr;
-
 			InventoryWidget->OnItemAdded.RemoveAll(InventoryWidget);
+
+			InventoryWidget = nullptr;
 		}
 		else
 		{
@@ -274,17 +276,20 @@ bool ULInventoryComponent::ShapeFits(TArray<FVector2D> Shape, FVector2D& ValidKe
 		{
 			FVector2D emptySlot;
 			emptySlot = Key;
-			bool bFailed = false; 
-            
+			bool bFailed = false;
+
 			// Check each item shape relative to the empty slot
 			for (auto itemShape : Shape)
 			{
 				FVector2D currentPos = emptySlot + itemShape;
-		
+
 				if (!InventoryState.Find(currentPos))
 				{
 					bFailed = true;
-					GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow, FString::Printf(TEXT("bFailed set to true at slot: %s"), *currentPos.ToString()));
+					GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow,
+					                                 FString::Printf(
+						                                 TEXT("bFailed set to true at slot: %s"),
+						                                 *currentPos.ToString()));
 					break;
 				}
 				break;
@@ -298,13 +303,15 @@ bool ULInventoryComponent::ShapeFits(TArray<FVector2D> Shape, FVector2D& ValidKe
 			else
 			{
 				ValidKey = emptySlot;
-				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow, FString::Printf(TEXT("ValidKey found: %s"), *ValidKey.ToString()));
+				GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Yellow,
+				                                 FString::Printf(TEXT("ValidKey found: %s"), *ValidKey.ToString()));
 				return true;
 			}
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Orange, FString::Printf(TEXT("Slot %s is already occupied"), *Key.ToString()));
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 2.f, FColor::Orange,
+			                                 FString::Printf(TEXT("Slot %s is already occupied"), *Key.ToString()));
 		}
 	}
 	return false;
