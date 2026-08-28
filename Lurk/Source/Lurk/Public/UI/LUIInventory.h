@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "LUIInventory.generated.h"
 
+class ULInventoryComponent;
 class ULItemDataAsset;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, int32, ItemID, ULItemDataAsset*, ItemData);
@@ -21,10 +22,25 @@ class LURK_API ULUIInventory : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void SetInventory(const TMap<FVector2D,ULItemComponent*>& inv) { Inventory = inv; }
+	void SetInventory(const TMap<FVector2D, ULItemComponent*>& inv) { Inventory = inv; }
 
 	UFUNCTION(BlueprintCallable)
-	void SetMaxSize(const int32 size) { WidgetSize = size; }
+	void SetInventorySize(const int32 size) { InventorySize = size; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetInventoryWidth(const int32 width) { InventoryWidth = width; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetInventoryComponent(ULInventoryComponent* inventoryComponent) { InventoryComponent = inventoryComponent; }
+
+	UFUNCTION(BlueprintPure)
+	int32 GetInventorySize() const { return InventorySize; }
+
+	UFUNCTION(BlueprintPure)
+	int32 GetInventoryWidth() const { return InventoryWidth; }
+
+	UFUNCTION(BlueprintPure)
+	TMap<FVector2D, ULItemComponent*> GetInventory() { return Inventory; }
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
@@ -32,22 +48,29 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnItemDropped OnItemDropped;
-	
+
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnItemRemoved OnItemRemoved;
-	
-	UFUNCTION(BlueprintCallable)
-	void ItemAdded(int32 ItemID, ULItemDataAsset* ItemData);
 
 	UFUNCTION(BlueprintCallable)
-	void ItemDropped(ULItemDataAsset* ItemData);
+	void ItemAdded(FVector2D Key, ULItemComponent* Item);
 
 	UFUNCTION(BlueprintCallable)
-	void ItemRemoved(int32 ItemID);
-	
-	UPROPERTY(BlueprintReadWrite)
-	TMap<FVector2D,ULItemComponent*> Inventory;
+	void ItemDropped(FVector2D Key);
 
-	UPROPERTY(BlueprintReadWrite)
-	int32 WidgetSize;
+	UFUNCTION(BlueprintCallable)
+	void ItemRemoved(FVector2D Key);
+
+private:
+	UPROPERTY()
+	TMap<FVector2D, ULItemComponent*> Inventory;
+
+	UPROPERTY()
+	int32 InventorySize;
+
+	UPROPERTY()
+	int32 InventoryWidth;
+
+	UPROPERTY()
+	ULInventoryComponent* InventoryComponent;
 };

@@ -22,16 +22,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool PickUp (ULItemComponent* ItemToPickUp);
 
-private:
+	UFUNCTION(BlueprintCallable)
+	void ItemDropped(ULItemComponent* ItemDropped);
+	
+	UFUNCTION(BlueprintCallable)
+	void RemoveFromInventory (FVector2D SlotKey, bool bModifyState);
+
 	UFUNCTION(BlueprintCallable)
 	void AddToInventory (FVector2D SlotKey, ULItemComponent* SlotValue, bool bModifyState);
 
-	UFUNCTION(BlueprintCallable)
-	void RemoveFromInventory (FVector2D SlotKey, bool bModifyState);
-	
-	UFUNCTION(BlueprintCallable)
-	void ItemDropped(ULItemDataAsset* ItemDropped);
-
+private:
 	void OpenInventory();
 	
 	UFUNCTION(BlueprintCallable)

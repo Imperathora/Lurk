@@ -103,7 +103,7 @@ void ULInventoryComponent::RemoveFromInventory(FVector2D SlotKey, bool bModifySt
 	}*/
 }
 
-void ULInventoryComponent::ItemDropped(ULItemDataAsset* ItemDropped)
+void ULInventoryComponent::ItemDropped(ULItemComponent* ItemDropped)
 {
 	if (ALCharacter* CharacterOwner = GetOwner<ALCharacter>())
 	{
@@ -174,7 +174,9 @@ void ULInventoryComponent::OpenInventory()
 				PlayerController->bShowMouseCursor = true;
 				PlayerController->SetInputMode(FInputModeGameAndUI());
 				InventoryWidget->SetInventory(Inventory);
-				InventoryWidget->SetMaxSize(InventorySize);
+				InventoryWidget->SetInventorySize(InventorySize);
+				InventoryWidget->SetInventoryWidth(InventoryWidth);
+				InventoryWidget->SetInventoryComponent(this);
 				InventoryWidget->AddToViewport();
 
 				/*InventoryWidget->OnItemAdded.AddDynamic(InventoryWidget, &ULUIInventory::ItemAdded);
@@ -199,7 +201,9 @@ void ULInventoryComponent::OpenInventory()
 		else
 		{
 			InventoryWidget->SetInventory(Inventory);
-			InventoryWidget->SetMaxSize(InventorySize);
+			InventoryWidget->SetInventorySize(InventorySize);
+			InventoryWidget->SetInventoryWidth(InventoryWidth);
+			InventoryWidget->SetInventoryComponent(this);
 			PlayerController->bShowMouseCursor = true;
 			PlayerController->SetInputMode(FInputModeGameAndUI());
 			InventoryWidget->AddToViewport();
